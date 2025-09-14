@@ -1,0 +1,41 @@
+name: Action Sederhana untuk ML Training Pipeline
+on:
+  workflow_dispatch:
+    inputs:
+      data_url:
+        description: 'URL to the training data CSV'
+        required: true
+        default: 'https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv'
+  
+
+jobs:
+  train-and-evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Download Training Data
+        run: curl -L "${{ github.event.inputs.data_url }}" -o training_data.csv
+
+      - name: Train and Evaluate Model
+        run: python source/train.py --data-path training_data.csv
+
+      - name: Upload Model and Evaluation Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ml-artifacts
+          path: |
+            model.joblib
+            evaluation.txt

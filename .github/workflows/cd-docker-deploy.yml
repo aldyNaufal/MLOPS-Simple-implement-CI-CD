@@ -27,8 +27,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor:
-            latest: true
+          # Menggunakan format satu baris untuk menghindari error indentasi
+          flavor: |
+            latest=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5

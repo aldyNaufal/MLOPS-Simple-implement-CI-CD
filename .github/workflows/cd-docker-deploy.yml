@@ -22,23 +22,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # LANGKAH BARU: Menghasilkan tag dan label Docker secara otomatis
       - name: Extract Docker metadata
-        id: meta # Memberi ID pada langkah ini agar outputnya bisa digunakan
+        id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
-          # Opsi 'flavor' ini akan membuat tag 'latest' menjadi true
           flavor:
             latest: true
 
-      # LANGKAH YANG DIPERBAIKI: Menggunakan output dari langkah 'meta'
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # Mengambil tag dan label dari output langkah 'meta'
-          # Aksi ini secara otomatis akan mengubah nama repository menjadi lowercase
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

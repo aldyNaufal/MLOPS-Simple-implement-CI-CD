@@ -3,3 +3,5 @@ scikit-learn
 pytest
 flake8
 joblib
+fastapi
+uvicorn[standard]

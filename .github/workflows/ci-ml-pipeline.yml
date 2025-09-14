@@ -35,5 +35,5 @@ jobs:
           pytest
 
       - name: Run training script smoke test
-        run: python src/train.py --epochs 1 --test-mode
+        run: python source/train.py --epochs 1 --test-mode
 

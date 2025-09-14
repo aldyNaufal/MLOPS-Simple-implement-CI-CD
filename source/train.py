@@ -10,8 +10,7 @@ parser.add_argument("--data-path", type=str, required=True, help="Path to the tr
 args = parser.parse_args()
 
 print("Loading data...")
-col_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
-df = pd.read_csv(args.data_path, header=None, names=col_names)
+df = pd.read_csv(args.data_path, header=0)
 
 X = df.drop('species', axis=1)
 y = df['species']
